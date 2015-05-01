@@ -1,3 +1,5 @@
+import sys
+
 def format_cols(cols):
     widths = [0] * len(cols[0])
 
