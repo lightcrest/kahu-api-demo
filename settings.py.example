@@ -1,0 +1,11 @@
+import requests
+
+server_root = "https://<YOUR KAHU HOSTNAME HERE>"
+tenant_uri = "/v0/tenant/<YOUR KAHU TENANT ID HERE>/"
+session = requests.Session()
+# Only necessary if your kahu endpoint doesn't have a valid SSL cert.
+session.verify = False
+
+# Add any authentication information here
+session.cookies.set("<COOKIE NAME>", "<COOKIE VALUE>")
+
