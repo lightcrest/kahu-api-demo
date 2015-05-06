@@ -5,6 +5,8 @@ tenant_uri = "/v0/tenant/<YOUR KAHU TENANT ID HERE>/"
 session = requests.Session()
 # Only necessary if your kahu endpoint doesn't have a valid SSL cert.
 session.verify = False
+import urllib3
+urllib3.disable_warnings()
 
 # Add any authentication information here
 session.cookies.set("<COOKIE NAME>", "<COOKIE VALUE>")

@@ -1,7 +1,3 @@
-# As a hack, disable SSL warnings.
-import urllib3
-urllib3.disable_warnings()
-
 import sys
 
 def format_cols(cols):
