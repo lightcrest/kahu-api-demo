@@ -1,5 +1,18 @@
 import sys
 
+def disable_ssl_warnings():
+    try:
+        from requests.packages import urllib3
+        urllib3.disable_warnings()
+    except ImportError:
+        pass
+
+    try:
+        import urllib3
+        urllib3.disable_warnings()
+    except ImportError:
+        pass
+
 def format_cols(cols):
     widths = [0] * len(cols[0])
 
