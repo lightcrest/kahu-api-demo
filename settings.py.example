@@ -3,6 +3,10 @@ import sys
 import util
 from urlparse import urljoin
 
+# Change ERROR to DEBUG if you'd like more information.
+import logging
+logging.basicConfig(level=logging.ERROR, format="%(levelname)s\t%(module)s\t\t%(message)s")
+
 public_interface="public-internet"
 
 # Via the Kumo Portal
