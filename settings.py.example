@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.ERROR, format="%(levelname)s\t%(module)s\t\t%(
 public_interface="public-internet"
 
 # Via the Kumo Portal
-if False:
+if True:
     email="<YOUR KUMO EMAIL>"
     password="<YOUR KUMO PASSWORD>"
 
