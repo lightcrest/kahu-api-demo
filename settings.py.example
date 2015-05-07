@@ -1,13 +1,43 @@
 import requests
+import sys
+import util
+from urlparse import urljoin
 
-server_root = "https://<YOUR KAHU HOSTNAME HERE>"
-tenant_uri = "/v0/tenant/<YOUR KAHU TENANT ID HERE>/"
-session = requests.Session()
-# Only necessary if your kahu endpoint doesn't have a valid SSL cert.
-session.verify = False
-import urllib3
-urllib3.disable_warnings()
+public_interface="public-internet"
 
-# Add any authentication information here
-session.cookies.set("<COOKIE NAME>", "<COOKIE VALUE>")
+# Via the Kumo Portal
+if False:
+    email="<YOUR KUMO EMAIL>"
+    password="<YOUR KUMO PASSWORD>"
 
+    kumo_url = "https://dashboard.lightcrest.com"
+
+    session = requests.Session()
+    r = session.post(kumo_url + "/accounts/login/", data={ 'email': email,
+                                                           'password': password })
+    util.check_response(r, [200])
+
+    r = session.get(kumo_url + "/api/")
+    util.check_response(r, [200])
+
+    info = r.json()
+
+    assert info["type"] == "kahu"
+    assert info["version"] == 0
+
+    api_url = urljoin(kumo_url, info["uri"])
+    tenant_url = urljoin(kumo_url, info["tenant"][0]["uri"])
+
+# or directly
+else:
+    api_url = "https://<YOUR KAHU HOSTNAME HERE>"
+    tenant_url = urljoin(api_url, "/v0/tenant/<YOUR KAHU TENANT ID HERE>/")
+    session = requests.Session()
+
+    # Only necessary if your kahu endpoint doesn't have a valid SSL cert.
+    session.verify = False
+    import urllib3
+    urllib3.disable_warnings()
+
+    # Add any authentication information here
+    session.cookies.set("<COOKIE NAME>", "<COOKIE VALUE>")
