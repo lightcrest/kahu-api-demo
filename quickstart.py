@@ -10,6 +10,8 @@ logging.basicConfig(level=logging.ERROR, format="%(levelname)s\t%(module)s\t\t%(
 
 from settings import session, api_url, tenant_url, public_interface
 
+logging.info("using api_url = %s and tenant_url = %s" % (api_url, tenant_url))
+
 step = util.step
 
 #
