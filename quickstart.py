@@ -8,7 +8,7 @@ import util
 
 logging.basicConfig(level=logging.ERROR, format="%(levelname)s\t%(module)s\t\t%(message)s")
 
-from settings import session, server_root, tenant_uri
+from settings import session, api_url, tenant_url, public_interface
 
 step = util.step
 
@@ -21,7 +21,7 @@ step("Get a list of all instances currently in the system")
 
 def instance_report():
     logging.info("Requesting a list of instances...")
-    r = session.get(server_root + tenant_uri + "/compute/instance/")
+    r = session.get(tenant_url + "/compute/instance/")
     util.check_response(r)
 
     instance_ids = r.json()
@@ -36,19 +36,19 @@ def instance_report():
 
             # The instance ID refers to a collection.  Since we want to get a summary
             # of information about the collection, strip off the trailing slash.
-            instance_uri = tenant_uri + "/compute/instance/" + id.rstrip("/")
+            instance_url = tenant_url + "/compute/instance/" + id.rstrip("/")
 
-            r = session.get(server_root + instance_uri)
+            r = session.get(instance_url)
             util.check_response(r)
             info = r.json()
 
             name = "(unassigned)"
-            r = session.get(server_root + instance_uri + "/tag/name")
+            r = session.get(instance_url + "/tag/name")
             if r.status_code == 200:
                 name = r.json()
 
             ipv4_address = "(unassigned)"
-            r = session.get(server_root + instance_uri + "/network/public-internet/address")
+            r = session.get(instance_url + "/network/" + public_interface + "/address")
             if r.status_code == 200:
                 ipv4_address = r.json()["IPv4"]
 
@@ -71,7 +71,7 @@ step("Request a listing of available VM profiles")
 #
 
 logging.info("Requesting a list of possible profiles...")
-r = session.get(server_root + "/v0/compute/profile/")
+r = session.get(api_url + "/v0/compute/profile/")
 util.check_response(r)
 
 profile_ids = r.json()
@@ -93,14 +93,14 @@ step("Request a listing of available VM sizes")
 #
 
 logging.info("Requesting a list of possible VM sizes...")
-r = session.get(server_root + "/v0/compute/size/")
+r = session.get(api_url + "/v0/compute/size/")
 util.check_response(r)
 
 t = []
 size_ids = r.json()
 if len(size_ids) > 0:
     for id in size_ids:
-        r = session.get(server_root + "/v0/compute/size/" + id.rstrip("/"))
+        r = session.get(api_url + "/v0/compute/size/" + id.rstrip("/"))
         util.check_response(r)
 
         info = r.json()
@@ -132,7 +132,7 @@ def create_vm(name, size, profile):
         "ssh-key": open("id_rsa.pub", "r")
     }
 
-    r = session.post(server_root + tenant_uri + "/compute/instance/", files=form)
+    r = session.post(tenant_url + "/compute/instance/", files=form)
     util.check_response(r, expected_statuses=[201])
 
     instance_uri = r.headers['location']
@@ -142,7 +142,7 @@ def create_vm(name, size, profile):
     logging.debug(info)
 
     logging.info("Tagging instance with new name.")
-    r = session.post(server_root + instance_uri + "/tag/", files=dict(name="name",
+    r = session.post(api_url + instance_uri + "/tag/", files=dict(name="name",
                                                                        value=name))
     util.check_response(r, expected_statuses=[201])
 
@@ -168,7 +168,7 @@ step("Start all of our new Virtual Machines")
 
 def control_vm(uri, action):
     logging.info("Running action '%s' at '%s'" % (action, uri))
-    r = session.post(server_root + uri + "/" + action)
+    r = session.post(api_url + uri + "/" + action)
     # If the status code is 400, it means that the instance was already in that state.
     util.check_response(r, expected_statuses=[200, 400])
 
@@ -210,7 +210,7 @@ while True:
             continue
 
         logging.info("Attempting to get the address for instance '%s'" % (uri,))
-        uri = server_root + uri + "/network/public-internet/address"
+        uri = api_url + uri + "/network/" + public_interface + "/address"
         r = session.get(uri)
         if r.status_code != 200:
             continue
@@ -244,7 +244,7 @@ def delete_vm(uri):
     control_vm(uri, "stop")
 
     logging.info("Deleting instance at '%s'" % (uri))
-    r = session.delete(server_root + uri)
+    r = session.delete(api_url + uri)
     util.check_response(r)
 
 
