@@ -1,4 +1,5 @@
 import sys
+import logging
 
 def disable_ssl_warnings():
     try:
@@ -60,6 +61,11 @@ def end_step():
     print
 
 def check_response(r, expected_statuses=None):
+    logging.debug("response headers")
+    logging.debug(r.headers)
+    logging.debug("response text")
+    logging.debug(r.text)
+
     if expected_statuses == None:
         expected_statuses = [200]
 
