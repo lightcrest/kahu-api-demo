@@ -19,7 +19,7 @@ def format_cols(cols):
 
     for i in cols:
         for idx, val in enumerate(i):
-            widths[idx] = max(len(val), widths[idx])
+            widths[idx] = max(len(str(val)), widths[idx])
 
     f = ""
 
