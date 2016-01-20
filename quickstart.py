@@ -54,7 +54,7 @@ def instance_report():
 
             t.append((id, name, info["state"], ipv4_address, util.basename(info["size"]), util.basename(info["profile"])))
 
-        print util.column_report("Instance Summary", 
+        print util.column_report("Instance Summary",
                                  ("Id", "Name", "State", "IPv4 Address", "Size", "Profile"), t)
     else:
         print "No VM instances currently exist."
