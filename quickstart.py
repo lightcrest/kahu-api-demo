@@ -44,9 +44,8 @@ def instance_report():
             info = r.json()
 
             name = "(unassigned)"
-            r = session.get(instance_url + "/tag/name")
-            if r.status_code == 200:
-                name = r.json()
+            if info["name"]:
+                name = info["name"]
 
             ipv4_address = "(unassigned)"
             r = session.get(instance_url + "/network/" + public_interface + "/address")
@@ -130,7 +129,8 @@ def create_vm(name, size, profile):
     form = {
         "size": size,
         "profile": profile,
-        "ssh-key": open("id_rsa.pub", "r")
+        "ssh-key": open("id_rsa.pub", "r"),
+        "name": name
     }
 
     r = session.post(tenant_url + "/compute/instance/", files=form)
@@ -140,11 +140,6 @@ def create_vm(name, size, profile):
     info = r.json()
     logging.info("New instance located at '%s'." % (instance_url))
     logging.debug(info)
-
-    logging.info("Tagging instance with new name.")
-    r = session.post(instance_url + "/tag/", files=dict(name="name",
-                                                        value=name))
-    util.check_response(r, expected_statuses=[201])
 
     return instance_url
 
