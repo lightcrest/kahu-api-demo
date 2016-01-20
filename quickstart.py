@@ -7,7 +7,7 @@ from urlparse import urljoin
 
 import util
 
-from settings import session, api_url, tenant_url, public_interface
+from settings import session, api_url, tenant_url, public_interface, wait_for_addresses
 
 logging.info("using api_url = %s and tenant_url = %s" % (api_url, tenant_url))
 
@@ -184,50 +184,51 @@ instance_report()
 util.end_step()
 
 
-#
-#
-step("Waiting (up to 180 seconds) For IPv4 Addresses To Be Assigned...")
-#     =============================================================
-#
-logging.info("Waiting for all of our instances to be assigned IPv4 addresses...")
 
-start = time.time()
-addresses = [None] * len(instance_urls)
+if wait_for_addresses:
+    #
+    #
+    step("Waiting (up to 180 seconds) For IPv4 Addresses To Be Assigned...")
+    #     =============================================================
+    #
+    logging.info("Waiting for all of our instances to be assigned IPv4 addresses...")
 
-found = 0
-while True:
-    if (time.time() - start) > 180:
-        logging.error("Timing out waiting for IPv4 addresses.")
-        break
+    start = time.time()
+    addresses = [None] * len(instance_urls)
 
-    for idx, url in enumerate(instance_urls):
-        if addresses[idx] != None:
-            continue
+    found = 0
+    while True:
+        if (time.time() - start) > 180:
+            logging.error("Timing out waiting for IPv4 addresses.")
+            break
 
-        logging.info("Attempting to get the address for instance '%s'" % (url,))
-        url = url + "/network/" + public_interface + "/address"
-        r = session.get(url)
-        if r.status_code != 200:
-            continue
+        for idx, url in enumerate(instance_urls):
+            if addresses[idx] != None:
+                continue
 
-        addresses[idx] = r.json()["IPv4"]
+            logging.info("Attempting to get the address for instance '%s'" % (url,))
+            url = url + "/network/" + public_interface + "/address"
+            r = session.get(url)
+            if r.status_code != 200:
+                continue
 
-        found += 1
+            addresses[idx] = r.json()["IPv4"]
 
-    if found >= len(instance_urls):
-        break
+            found += 1
 
-    logging.debug("Sleeping for 5 seconds...")
-    time.sleep(5)
+        if found >= len(instance_urls):
+            break
 
-t = []
+        logging.debug("Sleeping for 5 seconds...")
+        time.sleep(5)
 
-logging.info("got the following addresses %s" % (addresses,))
+    t = []
 
-instance_report()
+    logging.info("got the following addresses %s" % (addresses,))
 
-util.end_step()
+    instance_report()
 
+    util.end_step()
 
 #
 #

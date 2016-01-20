@@ -8,6 +8,7 @@ import logging
 logging.basicConfig(level=logging.ERROR, format="%(levelname)s\t%(module)s\t\t%(message)s")
 
 public_interface="public-internet"
+wait_for_addresses=True
 
 # Via the Kumo Portal
 if True:
