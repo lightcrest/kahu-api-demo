@@ -7,7 +7,7 @@ from urlparse import urljoin
 
 import util
 
-from settings import session, api_url, tenant_url, public_interface, wait_for_addresses
+from settings import session, api_url, tenant_url, public_interface, wait_for_addresses, size_id, profile_id
 
 logging.info("using api_url = %s and tenant_url = %s" % (api_url, tenant_url))
 
@@ -146,27 +146,29 @@ def create_vm(name, size, profile):
 
 instance_urls = []
 
-if len(size_ids) < 1:
-    raise ValueError("no sizes available from server")
+if not size_id:
+    if len(size_ids) < 1:
+        raise ValueError("no sizes available from server")
 
-if type(size_ids) is dict:
-    k = size_ids.keys()
-    size_id = k[0]
-elif type(size_ids) is list:
-    size_id = size_ids[0]
-else:
-    raise TypeError("unknown size_id type")
+    if type(size_ids) is dict:
+        k = size_ids.keys()
+        size_id = k[0]
+    elif type(size_ids) is list:
+        size_id = size_ids[0]
+    else:
+        raise TypeError("unknown size_id type")
 
-if len(profile_ids) < 1:
-    raise ValueError("no profiles available from server")
+if not profile_id:
+    if len(profile_ids) < 1:
+        raise ValueError("no profiles available from server")
 
-if type(profile_ids) is dict:
-    k = profile_ids.keys()
-    profile_id = k[0]
-elif type(profile_ids) is list:
-    profile_id = profile_id[0]
-else:
-    raise TypeError("unknown profile_id type")
+    if type(profile_ids) is dict:
+        k = profile_ids.keys()
+        profile_id = k[0]
+    elif type(profile_ids) is list:
+        profile_id = profile_id[0]
+    else:
+        raise TypeError("unknown profile_id type")
 
 instance_urls.append(create_vm("New Developer Instance", size_id, profile_id))
 instance_urls.append(create_vm("Another Developer Instance", size_id, profile_id))

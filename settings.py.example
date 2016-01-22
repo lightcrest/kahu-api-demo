@@ -9,6 +9,8 @@ logging.basicConfig(level=logging.ERROR, format="%(levelname)s\t%(module)s\t\t%(
 
 public_interface="public-internet"
 wait_for_addresses=True
+size_id = None
+profile_id = None
 
 # Via the Kumo Portal
 if True:
