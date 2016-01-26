@@ -121,7 +121,7 @@ One of the most common Kahu operations is creating a virtual machine instance.  
 
 - ssh-key - **optional**
 
-	The SSH public key to pre-seed the virtual machine with.
+	The SSH public key to pre-seed the virtual machine with.  By default, Kahu assigns this key to the ```admin``` user, which also may ```sudo``` as ```root```.
 
 The response consists of:
 
@@ -146,6 +146,8 @@ An example of creating a new virtual machine instance would be the following:
 		"size": "/v0/compute/size/1cpu256meg/",
 		"ssh-key": "ssh-rsa AAAAB[...]Tz5abf"
 	}
+
+NOTE: If the profile you're creating the instance from does not have ```cloud-init``` installed, ```ssh-key``` will be ignored.
 
 ----
 
