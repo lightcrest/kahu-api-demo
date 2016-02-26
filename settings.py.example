@@ -39,8 +39,9 @@ if True:
     api_url = urljoin(kumo_url, info["uri"])
     tenant_url = urljoin(kumo_url, info["tenant"][0]["uri"])
 
-# or directly
+# or directly against the Kahu APIs
 else:
+    # Note: if basic HTTP auth is required for your Kahu installation, include it in the api_url.
     api_url = "https://<YOUR KAHU HOSTNAME HERE>"
     tenant_url = urljoin(api_url, "/v0/tenant/<YOUR KAHU TENANT ID HERE>/")
     session = requests.Session()
@@ -49,5 +50,5 @@ else:
     session.verify = False
     util.disable_ssl_warnings()
 
-    # Add any authentication information here
+    # Add any additional authentication information here, e.g.
     session.cookies.set("<COOKIE NAME>", "<COOKIE VALUE>")
