@@ -168,6 +168,13 @@ In order to attach a new storage image to a virtual machine, one uses the VM URI
 
 The `Location` header lists the URI that can be used to perform actions on the volume.
 
+In addition to the options shown in the above example, it's possible to set additional flags on the storage volume:
+
+- ```bootable``` may be set to ```true``` or ```false```.
+- ```file``` is a ```QCOW2``` image to use as the storage volume.
+
+**NOTE**: ```file``` and ```size``` are mutually exclusive.
+
 ----
 
 ## Listing storage attached to a VM
