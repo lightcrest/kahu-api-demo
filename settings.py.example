@@ -7,9 +7,13 @@ from urlparse import urljoin
 import logging
 logging.basicConfig(level=logging.ERROR, format="%(levelname)s\t%(module)s\t\t%(message)s")
 
+# Set this to the network interface that provides DHCP leases.
 public_interface="public-internet"
+# Should we wait for the VMs to receive DHCP leases.
 wait_for_addresses=True
+# This is the size you want to use when creating a VM.  A value of None causes the demo to select a size arbitrarily.
 size_id = None
+# This is the profile you want to use when creating a VM.  A value of None causes the demo to select a profile arbitrarily.
 profile_id = None
 
 # Via the Kumo Portal
