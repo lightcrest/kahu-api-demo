@@ -1,6 +1,6 @@
 
-Kahu Web Services Quickstart Guide - v1.3
-=========================================
+Kahu Web Services Quickstart Guide
+==================================
 
 ----
 
