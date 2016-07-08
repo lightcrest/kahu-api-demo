@@ -7,7 +7,7 @@ from urlparse import urljoin
 
 import util
 
-from settings import session, api_url, tenant_url, public_interface, wait_for_addresses, size_id, profile_id
+from settings import session, api_url, tenant_url, public_interface, wait_for_addresses, size_id, profile_id, hypervisor_id
 
 logging.info("using api_url = %s and tenant_url = %s" % (api_url, tenant_url))
 
@@ -124,13 +124,14 @@ step("Create some virtual machine instances")
 #     =====================================
 #
 
-def create_vm(name, size, profile):
+def create_vm(name, size, profile, hypervisor):
     logging.info("Creating new instance named '%s'" % (name))
     form = {
         "size": size,
         "profile": profile,
         "ssh-key": open("id_rsa.pub", "r"),
-        "name": name
+        "name": name,
+        "hypervisor": hypervisor
     }
 
     r = session.post(tenant_url + "/compute/instance/", files=form)
@@ -170,9 +171,9 @@ if not profile_id:
     else:
         raise TypeError("unknown profile_id type")
 
-instance_urls.append(create_vm("New Developer Instance", size_id, profile_id))
-instance_urls.append(create_vm("Another Developer Instance", size_id, profile_id))
-instance_urls.append(create_vm("Yet Another Developer Instance", size_id, profile_id))
+instance_urls.append(create_vm("New Developer Instance", size_id, profile_id, hypervisor_id))
+instance_urls.append(create_vm("Another Developer Instance", size_id, profile_id, hypervisor_id))
+instance_urls.append(create_vm("Yet Another Developer Instance", size_id, profile_id, hypervisor_id))
 
 instance_report()
 

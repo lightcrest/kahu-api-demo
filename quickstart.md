@@ -119,6 +119,10 @@ One of the most common Kahu operations is creating a virtual machine instance.  
 
 	The size of the virtual machine to create.  This size refers to a pre-configured virtual machine size.
 
+- hypervisor - **required**
+
+	Which hypervisor this instance should be launched on (e.g. /v0/hypervisor/instance/0).
+
 - ssh-key - **optional**
 
 	The SSH public key to pre-seed the virtual machine with.  By default, Kahu assigns this key to the ```admin``` user, which also may ```sudo``` as ```root```.
