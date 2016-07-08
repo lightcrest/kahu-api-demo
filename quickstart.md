@@ -176,7 +176,8 @@ In addition to the options shown in the above example, it's possible to set addi
 
 - ```bootable``` may be set to ```true``` or ```false```.
 - ```file``` is a ```QCOW2``` image to use as the storage volume.
-
+- ```media-type``` (e.g. disk, cdrom)
+- ```guest-iface``` (e.g. virtio, ide, scsi, usb)
 **NOTE**: ```file``` and ```size``` are mutually exclusive.
 
 ----
