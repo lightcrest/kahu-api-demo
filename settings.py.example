@@ -16,7 +16,7 @@ size_id = None
 # This is the profile you want to use when creating a VM.  A value of None causes the demo to select a profile arbitrarily.
 profile_id = None
 # This is the hypervisor to launch VM instances on.
-hypervisor_id = "/v0/hypervisor/instance/0"
+hypervisor_uri = "v0/hypervisor/instance/0"
 
 # Via the Kumo Portal
 if True:
@@ -54,3 +54,6 @@ else:
 
     # Add any additional authentication information here, e.g.
     session.cookies.set("<COOKIE NAME>", "<COOKIE VALUE>")
+
+# Extract just the path information, to make it an external key.
+hypervisor_id = urlparse(urljoin(api_url, hypervisor_uri))[2]
