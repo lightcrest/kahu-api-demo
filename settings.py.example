@@ -1,7 +1,7 @@
 import requests
 import sys
 import util
-from urlparse import urljoin
+from urlparse import urljoin, urlparse
 
 # Change ERROR to DEBUG if you'd like more information.
 import logging
