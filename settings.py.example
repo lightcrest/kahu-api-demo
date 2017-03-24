@@ -18,28 +18,20 @@ profile_id = None
 # This is the hypervisor to launch VM instances on.
 hypervisor_uri = "v0/hypervisor/instance/0"
 
-# Via the Kumo Portal
+# Native Kahu Authentication
 if True:
-    email="<YOUR KUMO EMAIL>"
-    password="<YOUR KUMO PASSWORD>"
+    role="<YOUR ROLE NAME>"
+    password="<YOUR ROLE'S PASSWORD>"
 
-    kumo_url = "https://dashboard.lightcrest.com"
+    api_url = "http://dashboard.lightcrest.com/kahu/<YOUR CLUSTER API ROOT>"
 
     session = requests.Session()
-    r = session.post(kumo_url + "/accounts/login/", data={ 'email': email,
-                                                           'password': password })
+    r = session.post(urljoin(api_url, "v0/auth/login"), data={ 'role': role,
+                                                               'password': password })
     util.check_response(r, [200])
 
-    r = session.get(kumo_url + "/api/")
-    util.check_response(r, [200])
-
-    info = r.json()
-
-    assert info["type"] == "kahu"
-    assert info["version"] == 0
-
-    api_url = urljoin(kumo_url, info["uri"])
-    tenant_url = urljoin(kumo_url, info["tenant"][0]["uri"])
+    # Use an arbitrary tenancy.
+    tenant_url = urljoin(api_url, "v0/tenant/1/")
 
 # or directly against the Kahu APIs
 else:
