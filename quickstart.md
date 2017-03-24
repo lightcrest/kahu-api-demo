@@ -39,6 +39,48 @@ Note: For the purpose of this document, examples are shown using an arbitrary te
 
 ----
 
+## Loging Into A Role
+
+In the case where native Kahu authentication is being used, it's required that you first authenticate with the cluster before being able to make API requests.  To do this, a `POST` request is made to create a new session:
+
+
+        $ curl -i -X POST http://kahu/v0/auth/login -F role=joeuser -F password=picketfence
+        HTTP/1.1 200 OK
+        Set-Cookie: KAHU_SESSION_TOKEN=cm9sZTASDLKJALSKJJSJKKREDACTED; Path=/
+
+        {"session":"6251ad1f-ca42-a69a-0a6d-b68bLOREMIPSUM","uri":"/v0/auth/role/joeuser"}
+
+If login is successful, a `200` status will be the result, and one or more cookies will be returned.  In order to use the API for future requests, the returned cookies from the login operation must be passed in.
+
+----
+
+## Setting A Role Password
+
+In order to change a role password, you must `POST` against the password endpoint:
+
+       $ curl -i -b KAHU_SESSION_TOKEN=cm9sZTASDLKJALSKJJSJKKREDACTED -X POST http://kahu/v0/auth/password -F current-password=picketfence -F password=greengrass
+       HTTP/1.1 200 OK
+
+       "password set"
+
+Note: The `KAHU_SESSION_TOKEN` cookie is being passed in, because it was provided as part of the login operation.
+
+----
+
+## Logging Out Of A Role's Session
+
+In order to log out of a session, a `POST` against the logout endpoint must be done:
+
+        $ curl -i -b KAHU_SESSION_TOKEN=cm9sZTASDLKJALSKJJSJKKREDACTED -X POST http://kahu/v0/auth/logout
+        HTTP/1.1 200 OK
+        Set-Cookie: KAHU_SESSION_TOKEN=NULL; Path=/kahu; Max-Age=0
+
+        "logged out"
+
+Note: The `KAHU_SESSION_TOKEN` must be passed in to log out.  It's a requirement that at this point the previously provided cookie value no longer be used, and the server's new `Set-Cookie` request be honored.
+
+----
+
 ## Listing Available Profiles
 
 
