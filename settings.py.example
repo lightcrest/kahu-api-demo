@@ -23,7 +23,7 @@ if True:
     role="<YOUR ROLE NAME>"
     password="<YOUR ROLE'S PASSWORD>"
 
-    api_url = "http://dashboard.lightcrest.com/kahu/<YOUR CLUSTER API ROOT>"
+    api_url = "https://dashboard.lightcrest.com/kahu/<YOUR CLUSTER API ROOT>/"
 
     session = requests.Session()
     r = session.post(urljoin(api_url, "v0/auth/login"), data={ 'role': role,
@@ -32,6 +32,8 @@ if True:
 
     # Use an arbitrary tenancy.
     tenant_url = urljoin(api_url, "v0/tenant/1/")
+    # .. or for top-level access.
+    # tenant_url = urljoin(api_url, "v0/")
 
 # or directly against the Kahu APIs
 else:
