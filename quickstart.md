@@ -217,10 +217,12 @@ The `Location` header lists the URI that can be used to perform actions on the v
 In addition to the options shown in the above example, it's possible to set additional flags on the storage volume:
 
 - ```bootable``` may be set to ```true``` or ```false```.
-- ```file``` is a ```QCOW2``` image to use as the storage volume.  This is currently the only supported format.
+- ```file``` is a ```raw``` or ```QCOW2``` image to use as the storage volume.  These are the only two file formats supported.
 - ```media-type``` (e.g. disk, cdrom)
 - ```guest-iface``` (e.g. virtio, ide, scsi, usb)
-**NOTE**: ```file``` and ```size``` are mutually exclusive.  Files uploaded to act as storage volumes must be wrapped in ```qcow2``` containers (see ```qemu-img``` for more information).
+- ```type``` (e.g. qcow2, raw)
+
+**NOTE**: ```file``` and ```size``` are mutually exclusive.
 
 ----
 
