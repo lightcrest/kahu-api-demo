@@ -408,6 +408,25 @@ It's possible to query the contents of a snapshot with a `GET` requests:
 
 ----
 
+## Configuring Virtual-Hardware Quirks
+
+Virtual machines can have several virtual hardware configuration options set on them, currently the following are supported:
+
+- Microsoft HyperV Compatibility Mode (boolean flag)
+
+These options may be set on existing stopped instances, using a `PUT` request.  An example of setting a hardware quirk:
+
+	$ curl -i http://kahu/v0/compute/instance/0/hw/ -X PUT -F hyperv-compat=true
+	HTTP/1.1 200
+	Content-Type: application/json
+
+	{
+	        "message":"instance updated"
+	}
+
+----
+
+
 ## Deleting a VM instance.
 
 In order to delete a virtual machine, it must be in a `stopped` state.  To perform the actual delete operation, a `DELETE` request is made:
