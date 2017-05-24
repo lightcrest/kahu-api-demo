@@ -412,7 +412,10 @@ It's possible to query the contents of a snapshot with a `GET` requests:
 
 Virtual machines can have several virtual hardware configuration options set on them, currently the following are supported:
 
-- Microsoft HyperV Compatibility Mode (boolean flag)
+- ```hyperv-compat``` - Microsoft HyperV Compatibility Mode - boolean flag
+- ```rtc-clock``` - Determine which subsystem drives the RTC - enum: host, vm, or rt
+- ```rtc-driftfix``` - How time drifts in the guest are managed - enum: slew, or none
+- ```rtc-base``` - Which reference time to base the RTC off - enum: utc, localtime, or string: datetime (e.g. 2006-06-17T16:01:21)
 
 These options may be set on existing stopped instances, using a `PUT` request.  An example of setting a hardware quirk:
 
@@ -420,9 +423,7 @@ These options may be set on existing stopped instances, using a `PUT` request.  
 	HTTP/1.1 200
 	Content-Type: application/json
 
-	{
-	        "message":"instance updated"
-	}
+	"instance updated"
 
 ----
 
