@@ -427,6 +427,21 @@ These options may be set on existing stopped instances, using a `PUT` request.  
 
 ----
 
+## Configuring Console Settings
+
+The virtual machines are all given a virtual console that may be accessed via the Web UI.
+
+- ```pointer``` - How the virtual console's mouse should be exposed to the guest - enum: usb-tablet (default), usb-mouse, or ps/2
+
+These options may be set on existing stopped instances, using a `PUT` request.  An example of setting the console pointer to use:
+
+	$ curl -i http://kahu/v0/compute/instance/0/console/ -X PUT -F pointer=ps/2
+	HTTP/1.1 200
+	Content-Type: application/json
+
+	"instance updated"
+
+----
 
 ## Deleting a VM instance.
 
