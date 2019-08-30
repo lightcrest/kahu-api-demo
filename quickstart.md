@@ -181,7 +181,7 @@ The response consists of:
 
 An example of creating a new virtual machine instance would be the following:
 
-	$ curl -i http://kahu/v0/compute/instance/ -X POST -F profile=debian-jessie-amd64 -F size=1cpu256mb -F ssh-key=@id_rsa.pub
+	$ curl -i http://kahu/v0/compute/instance/ -X POST -F profile=debian-jessie-amd64 -F name=apitest1 -F size=1cpu256mb -F ssh-key=@id_rsa.pub -F hypervisor="v0/hypervisor/instance/0"
 	HTTP/1.1 201
 	Content-Type: application/json
 	Location: /v0/compute/instance/0/
